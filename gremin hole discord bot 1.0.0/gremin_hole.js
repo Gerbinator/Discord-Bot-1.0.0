@@ -11,9 +11,6 @@ client.login('Put Token Here');
 music_buffer = [];
 jokes = [];
 
-music_buffer = [];
-jokes = [];
-
 //plays music
   client.on('message', async message =>
   {
@@ -157,18 +154,20 @@ jokes = [];
     }
 
 //allows you to search any data on wikipedia or dndbeyond
-    lookup = message.content.substring(8);
-    if(message.content.includes('?search',lookup))
+    
+    if(message.content.includes('?search'))
       {
+        lookup = message.content.substring(8);
         message.delete()
         lookups = lookup.split(" ").join("_")
         wiki = 'https://en.wikipedia.org/wiki/';
         message.reply(wiki.concat(lookups));
       }   
     
-    dnd_lookup = message.content.substring(5);
+    
     if(message.content.includes('?dnd'))
     {
+      dnd_lookup = message.content.substring(5);
       message.delete()
       dnd_lookups = dnd_lookup.split(" ").join("%20")
       dnd = 'https://www.dndbeyond.com/search?q='
