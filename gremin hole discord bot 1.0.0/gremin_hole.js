@@ -11,6 +11,9 @@ client.login('Put Token Here');
 music_buffer = [];
 jokes = [];
 
+music_buffer = [];
+jokes = [];
+
 //plays music
   client.on('message', async message =>
   {
@@ -41,22 +44,8 @@ jokes = [];
           message.reply("join a voice channel you gonagaga ass")
         }
       }
-      //pops the buffer so another song can be played 
-    if(message.content.includes("?stop"))
-    {
-      message.delete();
-      message.member.voice.channel.leave();
-      for(var i = music_buffer; i >= 0; --i)
-        {  
-          music_buffer.pop()
-        }
-    }
-
-  })
 
 //rolls dice
-  client.on("message", async message =>
- {
     if(message.content.includes('?roll'))
     {
       //used to add up all the die results in teh dice_rolled array
@@ -166,14 +155,12 @@ jokes = [];
       }
     }
     }
- })
 
 //allows you to search any data on wikipedia or dndbeyond
-  client.on('message', async message => 
-  {
     lookup = message.content.substring(8);
     if(message.content.includes('?search',lookup))
       {
+        message.delete()
         lookups = lookup.split(" ").join("_")
         wiki = 'https://en.wikipedia.org/wiki/';
         message.reply(wiki.concat(lookups));
@@ -182,16 +169,13 @@ jokes = [];
     dnd_lookup = message.content.substring(5);
     if(message.content.includes('?dnd'))
     {
+      message.delete()
       dnd_lookups = dnd_lookup.split(" ").join("%20")
       dnd = 'https://www.dndbeyond.com/search?q='
       message.reply(dnd.concat(dnd_lookups))
     }
-    if(message.content.startsWith('?search') || message.content.includes('?dnd')){message.delete()}
-  })
  
 //series of one word commands
-  client.on('message', async message => 
-  {
     switch(message.content)
     {
       case '?joke':
@@ -211,15 +195,22 @@ jokes = [];
           setTimeout(function(){for(var x = jokes.length; x >= 0; x--) jokes.pop()},9750)
         }
       break;
-      
+      //pops the buffer so another song can be played 
+      case '?stop': 
+        message.delete();
+        message.member.voice.channel.leave();
+        for(var i = music_buffer; i >= 0; --i)
+          {  
+            music_buffer.pop()
+          }
+      break;
+      //takes the channel id where the the message was sent and renames the new text channel to that
       case '?clean':
-          //takes the channel id where the the message was sent and renames the new text channel to that
           message.channel.delete()
           message.guild.channels.create(message.channel.name)
       break;
-
+      //similar to the joke function
       case '?motivate':
-        //similar to the joke function
           message.delete();
           const motivation = fs.readFileSync('motivate.txt', 'UTF-8');
           let motivate = motivation.split(/\r?\n/);
@@ -231,11 +222,17 @@ jokes = [];
           message.delete()
           message.reply(fs.readFileSync('help.txt', 'UTF-8'))
       break;
-
+      //checks to see if there's any voice channels named "Shadow Realm", gets the id of the channel if named that, and them joins it and plays a video
       case '?perish':
           message.delete()
-          //checks to see if there's any voice channels named "Shadow Realm", gets the id of the channel if named that, and them joins it and plays a video
-          await message.member.client.channels.cache.get(message.guild.channels.cache.find(channel => channel.name === "Shadow Realm").id).join().then(connection => { const dispatcher = connection.play(ytdl('https://www.youtube.com/watch?v=xkzL8ts1PG0',{filter:'audioonly', highWaterMark: 1<<25 }));});
+          if(message.member.hasPermission('ADMINISTRATOR'))
+          {
+            await message.member.client.channels.cache.get(message.guild.channels.cache.find(channel => channel.name === "Shadow Realm").id).join().then(connection => { const dispatcher = connection.play(ytdl('https://www.youtube.com/watch?v=xkzL8ts1PG0',{filter:'audioonly', highWaterMark: 1<<25 }));});
+            for(var i = music_buffer; i >= 0; --i)
+            {  
+              music_buffer.pop()
+            }
+          }
       break;
     }
   })
