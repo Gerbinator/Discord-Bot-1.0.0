@@ -5,7 +5,7 @@ const fs = require('fs');
 
 
 const client = new Discord.Client();
-client.login('NzQzMTUxNTY3MDE1OTAzMzMy.XzQf1A.pv6jiVhdh3CmLTXwBAGXHvRjwMY');
+client.login('Put Token Here');
 
 //used as buffers to make sure it doesn't over ride any the current request wit ha new request
 music_buffer = [];
