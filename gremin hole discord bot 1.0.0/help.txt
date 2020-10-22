@@ -1,0 +1,24 @@
+
+PREFIX FOR ALL COMMANDS IS A ?
+
+play: plays a song
+
+stop: stops the current song and leaves the channel
+
+roll: rolls a dice of any sides
+roll m: rolls a dice and minuses the value provided
+roll p: rolls a dice and adds the value provided
+
+clean: cleans a text channel entirely 
+
+
+joke: tells a high quality joke 
+
+
+search: searches anything on wikipedia if available 
+
+dnd: seraches D&D related content
+
+motivate: really cheers people up 2% guranteed
+
+help: brings up a guide on how to use the commands
